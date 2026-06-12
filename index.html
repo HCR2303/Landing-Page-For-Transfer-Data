@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de Transferencia | Salsas Au</title>
+    <style>
+        /* Diseño limpio, moderno y responsivo para dispositivos móviles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .tarjeta-bancaria {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .titulo {
+            color: #333333;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .dato-contenedor {
+            background-color: #f1f3f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .etiqueta {
+            font-size: 0.85rem;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .valor {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+        }
+        .boton-copiar {
+            background-color: #0056b3;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        .boton-copiar:hover {
+            background-color: #004494;
+        }
+        /* Clase para la animación de éxito */
+        .copiado-exito {
+            background-color: #28a745 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tarjeta-bancaria">
+        <h2 class="titulo">Datos para Transferencia Bancaria</h2>
+        
+        <div style="text-align: left; margin-bottom: 15px;">
+            <span class="etiqueta">Beneficiario:</span>
+            <span style="font-size: 1.1rem; color: #333;">Arturo Jimenez</span>
+        </div>
+        
+        <div style="text-align: left; margin-bottom: 15px;">
+            <span class="etiqueta">Institución:</span>
+            <span style="font-size: 1.1rem; color: #333;">Mercado Pago W</span>
+        </div>
+
+        <div class="dato-contenedor">
+            <span class="etiqueta">Cuenta CLABE</span>
+            <span class="valor" id="clabeBancaria">722969026242293036</span>
+        </div>
+
+        <button class="boton-copiar" id="btnCopiar" onclick="copiarAlPortapapeles()">
+            Copiar CLABE
+        </button>
+    </div>
+
+    <script>
+        /**
+         * Función que extrae el texto del DOM y lo inyecta en el portapapeles del sistema operativo.
+         */
+        function copiarAlPortapapeles() {
+            const textoClabe = document.getElementById('clabeBancaria').innerText;
+            const boton = document.getElementById('btnCopiar');
+
+            // La API navigator.clipboard requiere estrictamente que la página esté bajo HTTPS
+            navigator.clipboard.writeText(textoClabe).then(() => {
+                // Retroalimentación visual para el cliente
+                const textoOriginal = boton.innerText;
+                boton.innerText = "¡Copiado!";
+                boton.classList.add("copiado-exito");
+
+                // Restaurar el botón después de 2.5 segundos
+                setTimeout(() => {
+                    boton.innerText = textoOriginal;
+                    boton.classList.remove("copiado-exito");
+                }, 2500);
+                
+            }).catch(err => {
+                console.error("Error al copiar al portapapeles: ", err);
+                alert("No se pudo copiar el texto. Por favor, selecciónelo manualmente.");
+            });
+        }
+    </script>
+</body>
+</html>
